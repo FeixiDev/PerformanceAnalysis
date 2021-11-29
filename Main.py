@@ -7,6 +7,8 @@ import SQL_chart as sqlchart
 import SQL_histogram as sqlhis
 import SQL_deviation as sqldevi
 import SQL_deviation_1standard as sqldevi1
+import SQL_view as sqlview
+import SQL_manage as sqlman
 import yaml
 import sqlite3
 
@@ -21,7 +23,7 @@ def main():
     except sqlite3.OperationalError:
         print("Please input FIO result text file name and other information in Yaml configuraion for input.py first AND THEN ENTER input in the next question")
 
-    typein = input("What kind of function do you want to use? (input/analysis/graph/deviation):")
+    typein = input("What kind of function do you want to use? (input/analysis/graph/deviation/view/manage):")
     # typein = a['typein']
     if typein == "input":
         sqlin.inputfile()
@@ -38,7 +40,7 @@ def main():
             sqlsel.SQL_analysis_output()
         if number_of_table  == "2":
             sqlsel2.SQL_printIndex()
-            sqlsel2.SQL_analysis_output()()
+            sqlsel2.SQL_analysis_output()
     
     elif typein == "graph":
         graph = input("What kind of graph do you want to create? (chart or histogram):")
@@ -56,17 +58,26 @@ def main():
     elif typein == "deviation":
         deviation = input("What kind of deviation do you want to create? (multiple standards or 1 standard)")
         if deviation == "multiple standards":
-            sqldevi.SQL_printIndex()
+            sqldevi.SQL_printStandardDRBD()
             sqldevi.SQL_pick_standard_values()
+            sqldevi.SQL_printExampleDRBD()
             sqldevi.SQL_pick_example_values()
             sqldevi.draw()
         if deviation == "1 standard":
-            sqldevi1.SQL_printIndex()
+            sqldevi1.SQL_printStandardDRBD()
             sqldevi1.SQL_pick_standard_values()
+            sqldevi1.SQL_printExampleDRBD()
             sqldevi1.SQL_pick_example_values()
             sqldevi1.draw()
+
+    elif typein == "view":
+        sqlview.SQL_test()
     
-    elif typein not in ["input", "analysis", "graph", "deviation"]:
+    elif typein == "manage":
+        sqlman.drop_table()
+        sqlman.drop_row()
+    
+    elif typein not in ["input", "analysis", "graph", "deviation", "view", "manage"]:
         print("Not a vaild keyword. Please Enter again.")
         main()
 
