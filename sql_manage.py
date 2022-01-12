@@ -1,5 +1,5 @@
 import sqlite3
-
+from prettytable.prettytable import from_db_cursor
 from matplotlib.pyplot import table
 
 TABLE_NAME = ''
@@ -35,13 +35,15 @@ def drop_row():
     cur.execute(sql_sentence_row)
     
     data = cur.execute('SELECT * from Index_Table')
-    column_list = []
-    for column in data.description:
-        column_list.append(column[0])
-    print(column_list)
+    # column_list = []
+    # for column in data.description:
+    #     column_list.append(column[0])
+    # print(column_list)
     
-    for row in data:
-        print (row)
+    # for row in data:
+    #     print (row)
+    x = from_db_cursor(cur)
+    print (x)
 
     cur.close()
     con.commit()
